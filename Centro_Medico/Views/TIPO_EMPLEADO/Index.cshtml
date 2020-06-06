@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Centro_Medico.Models.TIPO_EMPLEADO>
+
+@{
+    ViewBag.Title = "Tipos de Empleados";
+}
+
+<h2>Tipos de Empleados</h2>
+
+<p>
+    @Html.ActionLink("Nuevo tipo de empleado", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.descripccionTipEmp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estadoTipEmp)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.descripccionTipEmp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estadoTipEmp)
+        </td>
+        <td>
+            @Html.ActionLink("Modificar", "Edit", new { id=item.coidgoTipEmp }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.coidgoTipEmp }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.coidgoTipEmp })
+        </td>
+    </tr>
+}
+
+</table>

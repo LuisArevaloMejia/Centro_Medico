@@ -1,0 +1,48 @@
+﻿@model Centro_Medico.Models.MEDICO
+
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Esta seguro que desea eliminar?</h3>
+<div>
+    <h4>MEDICO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.estadoM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estadoM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMPLEADO.nombresEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMPLEADO.nombresEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ESPECIALIDAD.NombreEsp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ESPECIALIDAD.NombreEsp)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regresar", "Index")
+        </div>
+    }
+</div>

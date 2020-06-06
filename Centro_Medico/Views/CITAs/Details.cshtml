@@ -1,0 +1,66 @@
+﻿@model Centro_Medico.Models.CITA
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>CITA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estadoCita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estadoCita)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaProximaCita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaProximaCita)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEDICO.codigoM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEDICO.codigoM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PACIENTE.nombresP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PACIENTE.nombresP)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Eliminar", "Edit", new { id = Model.codigoCita }) |
+    @Html.ActionLink("Regresar", "Index")
+</p>

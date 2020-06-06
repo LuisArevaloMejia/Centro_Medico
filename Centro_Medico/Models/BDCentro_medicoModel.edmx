@@ -1,0 +1,575 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBCentro_medicoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CITA">
+          <Key>
+            <PropertyRef Name="codigoCita" />
+          </Key>
+          <Property Name="codigoCita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigoM" Type="int" Nullable="false" />
+          <Property Name="codigoP" Type="int" Nullable="false" />
+          <Property Name="fechaInicio" Type="datetime" Nullable="false" />
+          <Property Name="fechaFin" Type="datetime" Nullable="false" />
+          <Property Name="estadoCita" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fechaProximaCita" Type="date" />
+        </EntityType>
+        <EntityType Name="DIAGNOSTICO">
+          <Key>
+            <PropertyRef Name="codigoDiag" />
+          </Key>
+          <Property Name="codigoDiag" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigoCita" Type="int" Nullable="false" />
+          <Property Name="nombreDiag" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tipoDiag" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Observaciones" Type="varchar(max)" />
+          <Property Name="fotografias" Type="varchar(max)" />
+          <Property Name="medicamentos" Type="varchar(max)" />
+          <Property Name="fechaEmision" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EMPLEADO">
+          <Key>
+            <PropertyRef Name="codigoEmp" />
+          </Key>
+          <Property Name="codigoEmp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigoTipEmp" Type="int" Nullable="false" />
+          <Property Name="nombresEmp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apPaternoEmp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apMaternoEmp" Type="varchar" MaxLength="50" />
+          <Property Name="dpiEmp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Colegiago" Type="varchar" MaxLength="50" />
+          <Property Name="sexoEmp" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="fechaNacimientoEmp" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ESPECIALIDAD">
+          <Key>
+            <PropertyRef Name="codigoEsp" />
+          </Key>
+          <Property Name="codigoEsp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="esatadoEsp" Type="bit" Nullable="false" />
+          <Property Name="NombreEsp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripccionEsp" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="HISTORIAL_MEDICO">
+          <Key>
+            <PropertyRef Name="codigoHM" />
+          </Key>
+          <Property Name="codigoHM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigoP" Type="int" Nullable="false" />
+          <Property Name="fechaCreacion" Type="date" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEDICO">
+          <Key>
+            <PropertyRef Name="codigoM" />
+          </Key>
+          <Property Name="codigoM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigoEmp" Type="int" Nullable="false" />
+          <Property Name="codigoEsp" Type="int" Nullable="false" />
+          <Property Name="estadoM" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PACIENTE">
+          <Key>
+            <PropertyRef Name="codigoP" />
+          </Key>
+          <Property Name="codigoP" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombresP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apMaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fechaNacimientoP" Type="date" Nullable="false" />
+          <Property Name="sexoP" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="dpiP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="direccionP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="telefonoP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPO_EMPLEADO">
+          <Key>
+            <PropertyRef Name="coidgoTipEmp" />
+          </Key>
+          <Property Name="coidgoTipEmp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripccionTipEmp" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="estadoTipEmp" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CITA_MEDICO">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="CITA" Type="Self.CITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="codigoM" />
+            </Principal>
+            <Dependent Role="CITA">
+              <PropertyRef Name="codigoM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CITA_PACIENTE">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="CITA" Type="Self.CITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="codigoP" />
+            </Principal>
+            <Dependent Role="CITA">
+              <PropertyRef Name="codigoP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIAGNOSTICO_CITA">
+          <End Role="CITA" Type="Self.CITA" Multiplicity="1" />
+          <End Role="DIAGNOSTICO" Type="Self.DIAGNOSTICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CITA">
+              <PropertyRef Name="codigoCita" />
+            </Principal>
+            <Dependent Role="DIAGNOSTICO">
+              <PropertyRef Name="codigoCita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLEADO_TIPO_EMPLEADO">
+          <End Role="TIPO_EMPLEADO" Type="Self.TIPO_EMPLEADO" Multiplicity="1" />
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_EMPLEADO">
+              <PropertyRef Name="coidgoTipEmp" />
+            </Principal>
+            <Dependent Role="EMPLEADO">
+              <PropertyRef Name="codigoTipEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HISTORIAL_MEDICO_PACIENTE">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="HISTORIAL_MEDICO" Type="Self.HISTORIAL_MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="codigoP" />
+            </Principal>
+            <Dependent Role="HISTORIAL_MEDICO">
+              <PropertyRef Name="codigoP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEDICO_EMPLEADO">
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="1" />
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLEADO">
+              <PropertyRef Name="codigoEmp" />
+            </Principal>
+            <Dependent Role="MEDICO">
+              <PropertyRef Name="codigoEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEDICO_ESPECIALIDAD">
+          <End Role="ESPECIALIDAD" Type="Self.ESPECIALIDAD" Multiplicity="1" />
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESPECIALIDAD">
+              <PropertyRef Name="codigoEsp" />
+            </Principal>
+            <Dependent Role="MEDICO">
+              <PropertyRef Name="codigoEsp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBCentro_medicoModelStoreContainer">
+          <EntitySet Name="CITA" EntityType="Self.CITA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DIAGNOSTICO" EntityType="Self.DIAGNOSTICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESPECIALIDAD" EntityType="Self.ESPECIALIDAD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HISTORIAL_MEDICO" EntityType="Self.HISTORIAL_MEDICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDICO" EntityType="Self.MEDICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACIENTE" EntityType="Self.PACIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPO_EMPLEADO" EntityType="Self.TIPO_EMPLEADO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CITA_MEDICO" Association="Self.FK_CITA_MEDICO">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="CITA" EntitySet="CITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CITA_PACIENTE" Association="Self.FK_CITA_PACIENTE">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="CITA" EntitySet="CITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIAGNOSTICO_CITA" Association="Self.FK_DIAGNOSTICO_CITA">
+            <End Role="CITA" EntitySet="CITA" />
+            <End Role="DIAGNOSTICO" EntitySet="DIAGNOSTICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLEADO_TIPO_EMPLEADO" Association="Self.FK_EMPLEADO_TIPO_EMPLEADO">
+            <End Role="TIPO_EMPLEADO" EntitySet="TIPO_EMPLEADO" />
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HISTORIAL_MEDICO_PACIENTE" Association="Self.FK_HISTORIAL_MEDICO_PACIENTE">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="HISTORIAL_MEDICO" EntitySet="HISTORIAL_MEDICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEDICO_EMPLEADO" Association="Self.FK_MEDICO_EMPLEADO">
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+            <End Role="MEDICO" EntitySet="MEDICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEDICO_ESPECIALIDAD" Association="Self.FK_MEDICO_ESPECIALIDAD">
+            <End Role="ESPECIALIDAD" EntitySet="ESPECIALIDAD" />
+            <End Role="MEDICO" EntitySet="MEDICO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBCentro_medicoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CITA">
+          <Key>
+            <PropertyRef Name="codigoCita" />
+          </Key>
+          <Property Name="codigoCita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigoM" Type="Int32" Nullable="false" />
+          <Property Name="codigoP" Type="Int32" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estadoCita" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaProximaCita" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK_CITA_MEDICO" FromRole="CITA" ToRole="MEDICO" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.FK_CITA_PACIENTE" FromRole="CITA" ToRole="PACIENTE" />
+          <NavigationProperty Name="DIAGNOSTICO" Relationship="Self.FK_DIAGNOSTICO_CITA" FromRole="CITA" ToRole="DIAGNOSTICO" />
+        </EntityType>
+        <EntityType Name="DIAGNOSTICO">
+          <Key>
+            <PropertyRef Name="codigoDiag" />
+          </Key>
+          <Property Name="codigoDiag" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigoCita" Type="Int32" Nullable="false" />
+          <Property Name="nombreDiag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipoDiag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fotografias" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="medicamentos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fechaEmision" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CITA" Relationship="Self.FK_DIAGNOSTICO_CITA" FromRole="DIAGNOSTICO" ToRole="CITA" />
+        </EntityType>
+        <EntityType Name="EMPLEADO">
+          <Key>
+            <PropertyRef Name="codigoEmp" />
+          </Key>
+          <Property Name="codigoEmp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigoTipEmp" Type="Int32" Nullable="false" />
+          <Property Name="nombresEmp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apPaternoEmp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apMaternoEmp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dpiEmp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Colegiago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sexoEmp" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="fechaNacimientoEmp" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="TIPO_EMPLEADO" Relationship="Self.FK_EMPLEADO_TIPO_EMPLEADO" FromRole="EMPLEADO" ToRole="TIPO_EMPLEADO" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK_MEDICO_EMPLEADO" FromRole="EMPLEADO" ToRole="MEDICO" />
+        </EntityType>
+        <EntityType Name="ESPECIALIDAD">
+          <Key>
+            <PropertyRef Name="codigoEsp" />
+          </Key>
+          <Property Name="codigoEsp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="esatadoEsp" Type="Boolean" Nullable="false" />
+          <Property Name="NombreEsp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripccionEsp" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK_MEDICO_ESPECIALIDAD" FromRole="ESPECIALIDAD" ToRole="MEDICO" />
+        </EntityType>
+        <EntityType Name="HISTORIAL_MEDICO">
+          <Key>
+            <PropertyRef Name="codigoHM" />
+          </Key>
+          <Property Name="codigoHM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigoP" Type="Int32" Nullable="false" />
+          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.FK_HISTORIAL_MEDICO_PACIENTE" FromRole="HISTORIAL_MEDICO" ToRole="PACIENTE" />
+        </EntityType>
+        <EntityType Name="MEDICO">
+          <Key>
+            <PropertyRef Name="codigoM" />
+          </Key>
+          <Property Name="codigoM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigoEmp" Type="Int32" Nullable="false" />
+          <Property Name="codigoEsp" Type="Int32" Nullable="false" />
+          <Property Name="estadoM" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CITA" Relationship="Self.FK_CITA_MEDICO" FromRole="MEDICO" ToRole="CITA" />
+          <NavigationProperty Name="EMPLEADO" Relationship="Self.FK_MEDICO_EMPLEADO" FromRole="MEDICO" ToRole="EMPLEADO" />
+          <NavigationProperty Name="ESPECIALIDAD" Relationship="Self.FK_MEDICO_ESPECIALIDAD" FromRole="MEDICO" ToRole="ESPECIALIDAD" />
+        </EntityType>
+        <EntityType Name="PACIENTE">
+          <Key>
+            <PropertyRef Name="codigoP" />
+          </Key>
+          <Property Name="codigoP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombresP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaNacimientoP" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="sexoP" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="dpiP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="direccionP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefonoP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CITA" Relationship="Self.FK_CITA_PACIENTE" FromRole="PACIENTE" ToRole="CITA" />
+          <NavigationProperty Name="HISTORIAL_MEDICO" Relationship="Self.FK_HISTORIAL_MEDICO_PACIENTE" FromRole="PACIENTE" ToRole="HISTORIAL_MEDICO" />
+        </EntityType>
+        <EntityType Name="TIPO_EMPLEADO">
+          <Key>
+            <PropertyRef Name="coidgoTipEmp" />
+          </Key>
+          <Property Name="coidgoTipEmp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripccionTipEmp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estadoTipEmp" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EMPLEADO" Relationship="Self.FK_EMPLEADO_TIPO_EMPLEADO" FromRole="TIPO_EMPLEADO" ToRole="EMPLEADO" />
+        </EntityType>
+        <Association Name="FK_CITA_MEDICO">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="CITA" Type="Self.CITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="codigoM" />
+            </Principal>
+            <Dependent Role="CITA">
+              <PropertyRef Name="codigoM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CITA_PACIENTE">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="CITA" Type="Self.CITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="codigoP" />
+            </Principal>
+            <Dependent Role="CITA">
+              <PropertyRef Name="codigoP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIAGNOSTICO_CITA">
+          <End Role="CITA" Type="Self.CITA" Multiplicity="1" />
+          <End Role="DIAGNOSTICO" Type="Self.DIAGNOSTICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CITA">
+              <PropertyRef Name="codigoCita" />
+            </Principal>
+            <Dependent Role="DIAGNOSTICO">
+              <PropertyRef Name="codigoCita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMPLEADO_TIPO_EMPLEADO">
+          <End Role="TIPO_EMPLEADO" Type="Self.TIPO_EMPLEADO" Multiplicity="1" />
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_EMPLEADO">
+              <PropertyRef Name="coidgoTipEmp" />
+            </Principal>
+            <Dependent Role="EMPLEADO">
+              <PropertyRef Name="codigoTipEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEDICO_EMPLEADO">
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="1" />
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLEADO">
+              <PropertyRef Name="codigoEmp" />
+            </Principal>
+            <Dependent Role="MEDICO">
+              <PropertyRef Name="codigoEmp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEDICO_ESPECIALIDAD">
+          <End Role="ESPECIALIDAD" Type="Self.ESPECIALIDAD" Multiplicity="1" />
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESPECIALIDAD">
+              <PropertyRef Name="codigoEsp" />
+            </Principal>
+            <Dependent Role="MEDICO">
+              <PropertyRef Name="codigoEsp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HISTORIAL_MEDICO_PACIENTE">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="HISTORIAL_MEDICO" Type="Self.HISTORIAL_MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="codigoP" />
+            </Principal>
+            <Dependent Role="HISTORIAL_MEDICO">
+              <PropertyRef Name="codigoP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBCentro_medicoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CITA" EntityType="Self.CITA" />
+          <EntitySet Name="DIAGNOSTICO" EntityType="Self.DIAGNOSTICO" />
+          <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" />
+          <EntitySet Name="ESPECIALIDAD" EntityType="Self.ESPECIALIDAD" />
+          <EntitySet Name="HISTORIAL_MEDICO" EntityType="Self.HISTORIAL_MEDICO" />
+          <EntitySet Name="MEDICO" EntityType="Self.MEDICO" />
+          <EntitySet Name="PACIENTE" EntityType="Self.PACIENTE" />
+          <EntitySet Name="TIPO_EMPLEADO" EntityType="Self.TIPO_EMPLEADO" />
+          <AssociationSet Name="FK_CITA_MEDICO" Association="Self.FK_CITA_MEDICO">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="CITA" EntitySet="CITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CITA_PACIENTE" Association="Self.FK_CITA_PACIENTE">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="CITA" EntitySet="CITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIAGNOSTICO_CITA" Association="Self.FK_DIAGNOSTICO_CITA">
+            <End Role="CITA" EntitySet="CITA" />
+            <End Role="DIAGNOSTICO" EntitySet="DIAGNOSTICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMPLEADO_TIPO_EMPLEADO" Association="Self.FK_EMPLEADO_TIPO_EMPLEADO">
+            <End Role="TIPO_EMPLEADO" EntitySet="TIPO_EMPLEADO" />
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEDICO_EMPLEADO" Association="Self.FK_MEDICO_EMPLEADO">
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+            <End Role="MEDICO" EntitySet="MEDICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEDICO_ESPECIALIDAD" Association="Self.FK_MEDICO_ESPECIALIDAD">
+            <End Role="ESPECIALIDAD" EntitySet="ESPECIALIDAD" />
+            <End Role="MEDICO" EntitySet="MEDICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HISTORIAL_MEDICO_PACIENTE" Association="Self.FK_HISTORIAL_MEDICO_PACIENTE">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="HISTORIAL_MEDICO" EntitySet="HISTORIAL_MEDICO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBCentro_medicoModelStoreContainer" CdmEntityContainer="DBCentro_medicoEntities">
+          <EntitySetMapping Name="CITA">
+            <EntityTypeMapping TypeName="DBCentro_medicoModel.CITA">
+              <MappingFragment StoreEntitySet="CITA">
+                <ScalarProperty Name="codigoCita" ColumnName="codigoCita" />
+                <ScalarProperty Name="codigoM" ColumnName="codigoM" />
+                <ScalarProperty Name="codigoP" ColumnName="codigoP" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+                <ScalarProperty Name="estadoCita" ColumnName="estadoCita" />
+                <ScalarProperty Name="fechaProximaCita" ColumnName="fechaProximaCita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DIAGNOSTICO">
+            <EntityTypeMapping TypeName="DBCentro_medicoModel.DIAGNOSTICO">
+              <MappingFragment StoreEntitySet="DIAGNOSTICO">
+                <ScalarProperty Name="codigoDiag" ColumnName="codigoDiag" />
+                <ScalarProperty Name="codigoCita" ColumnName="codigoCita" />
+                <ScalarProperty Name="nombreDiag" ColumnName="nombreDiag" />
+                <ScalarProperty Name="tipoDiag" ColumnName="tipoDiag" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="fotografias" ColumnName="fotografias" />
+                <ScalarProperty Name="medicamentos" ColumnName="medicamentos" />
+                <ScalarProperty Name="fechaEmision" ColumnName="fechaEmision" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLEADO">
+            <EntityTypeMapping TypeName="DBCentro_medicoModel.EMPLEADO">
+              <MappingFragment StoreEntitySet="EMPLEADO">
+                <ScalarProperty Name="codigoEmp" ColumnName="codigoEmp" />
+                <ScalarProperty Name="codigoTipEmp" ColumnName="codigoTipEmp" />
+                <ScalarProperty Name="nombresEmp" ColumnName="nombresEmp" />
+                <ScalarProperty Name="apPaternoEmp" ColumnName="apPaternoEmp" />
+                <ScalarProperty Name="apMaternoEmp" ColumnName="apMaternoEmp" />
+                <ScalarProperty Name="dpiEmp" ColumnName="dpiEmp" />
+                <ScalarProperty Name="Colegiago" ColumnName="Colegiago" />
+                <ScalarProperty Name="sexoEmp" ColumnName="sexoEmp" />
+                <ScalarProperty Name="fechaNacimientoEmp" ColumnName="fechaNacimientoEmp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESPECIALIDAD">
+            <EntityTypeMapping TypeName="DBCentro_medicoModel.ESPECIALIDAD">
+              <MappingFragment StoreEntitySet="ESPECIALIDAD">
+                <ScalarProperty Name="codigoEsp" ColumnName="codigoEsp" />
+                <ScalarProperty Name="esatadoEsp" ColumnName="esatadoEsp" />
+                <ScalarProperty Name="NombreEsp" ColumnName="NombreEsp" />
+                <ScalarProperty Name="descripccionEsp" ColumnName="descripccionEsp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HISTORIAL_MEDICO">
+            <EntityTypeMapping TypeName="DBCentro_medicoModel.HISTORIAL_MEDICO">
+              <MappingFragment StoreEntitySet="HISTORIAL_MEDICO">
+                <ScalarProperty Name="codigoHM" ColumnName="codigoHM" />
+                <ScalarProperty Name="codigoP" ColumnName="codigoP" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDICO">
+            <EntityTypeMapping TypeName="DBCentro_medicoModel.MEDICO">
+              <MappingFragment StoreEntitySet="MEDICO">
+                <ScalarProperty Name="codigoM" ColumnName="codigoM" />
+                <ScalarProperty Name="codigoEmp" ColumnName="codigoEmp" />
+                <ScalarProperty Name="codigoEsp" ColumnName="codigoEsp" />
+                <ScalarProperty Name="estadoM" ColumnName="estadoM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACIENTE">
+            <EntityTypeMapping TypeName="DBCentro_medicoModel.PACIENTE">
+              <MappingFragment StoreEntitySet="PACIENTE">
+                <ScalarProperty Name="codigoP" ColumnName="codigoP" />
+                <ScalarProperty Name="nombresP" ColumnName="nombresP" />
+                <ScalarProperty Name="apPaterno" ColumnName="apPaterno" />
+                <ScalarProperty Name="apMaterno" ColumnName="apMaterno" />
+                <ScalarProperty Name="fechaNacimientoP" ColumnName="fechaNacimientoP" />
+                <ScalarProperty Name="sexoP" ColumnName="sexoP" />
+                <ScalarProperty Name="dpiP" ColumnName="dpiP" />
+                <ScalarProperty Name="direccionP" ColumnName="direccionP" />
+                <ScalarProperty Name="telefonoP" ColumnName="telefonoP" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_EMPLEADO">
+            <EntityTypeMapping TypeName="DBCentro_medicoModel.TIPO_EMPLEADO">
+              <MappingFragment StoreEntitySet="TIPO_EMPLEADO">
+                <ScalarProperty Name="coidgoTipEmp" ColumnName="coidgoTipEmp" />
+                <ScalarProperty Name="descripccionTipEmp" ColumnName="descripccionTipEmp" />
+                <ScalarProperty Name="estadoTipEmp" ColumnName="estadoTipEmp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

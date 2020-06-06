@@ -1,0 +1,82 @@
+﻿@model Centro_Medico.Models.EMPLEADO
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>EMPLEADO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombresEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombresEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apPaternoEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apPaternoEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apMaternoEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apMaternoEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dpiEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dpiEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Colegiago)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Colegiago)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sexoEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sexoEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaNacimientoEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaNacimientoEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TIPO_EMPLEADO.descripccionTipEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TIPO_EMPLEADO.descripccionTipEmp)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modificar", "Edit", new { id = Model.codigoEmp }) |
+    @Html.ActionLink("Regresar", "Index")
+</p>

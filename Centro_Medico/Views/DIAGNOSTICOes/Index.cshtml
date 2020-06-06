@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Centro_Medico.Models.DIAGNOSTICO>
+
+@{
+    ViewBag.Title = "Diasnosticos";
+}
+
+<h2>Diagnosticos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo Diagnostico", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nombreDiag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoDiag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fotografias)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.medicamentos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaEmision)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CITA.estadoCita)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombreDiag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tipoDiag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observaciones)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fotografias)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.medicamentos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaEmision)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CITA.estadoCita)
+        </td>
+        <td>
+            @Html.ActionLink("Modificar", "Edit", new { id=item.codigoDiag }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.codigoDiag }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.codigoDiag })
+        </td>
+    </tr>
+}
+
+</table>

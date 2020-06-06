@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<section class="Grid text-center">
+<div class="container">
+    <h1><img src="~/Imagenes/sifco.gif" /> Centro Medico</h1>
+    <p class="lead"> Cuidamos de ti </p>
+        <p>
+            <a href="https://sifco.org/" class="btn btn-primary my-2">Conoce más de nosotros</a>
+        </p>
+</div>
+</section>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Pacientes", "Index", "PACIENTEs")</h2>
+        <p>
+            Conoce a todos nuestros pacientes
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Citas", "Index", "CITAs")</h2>
+        <p>Ve nuestras citas.</p>
+    </div>
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Empleados", "Index", "EMPLEADOes")</h2>
+        <p>Conoce a nuestro personal.</p>
+    </div>
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Tipos de Empleados", "Index", "TIPO_EMPLEADO")</h2>
+        <p>Que tipo de empliados tenemos</p>
+    </div>
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Medicos", "Index", "Medicos")</h2>
+        <p>Conoce a nuestros Medicos altamente calificados.</p>
+    </div>
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Especialidades", "Index", "ESPECIALIDADs")</h2>
+        <p>Conoce más sobre las especialidades medicas que puedes encontrar en Centro Medico.</p>
+    </div>
+
+</div>

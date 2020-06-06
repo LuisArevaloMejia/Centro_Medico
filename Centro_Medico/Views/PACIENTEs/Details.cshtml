@@ -1,0 +1,90 @@
+﻿@model Centro_Medico.Models.PACIENTE
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>PACIENTE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombresP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombresP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apPaterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apPaterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apMaterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apMaterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaNacimientoP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaNacimientoP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sexoP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sexoP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dpiP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dpiP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.direccionP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.direccionP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.telefonoP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.telefonoP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modificar", "Edit", new { id = Model.codigoP }) |
+    @Html.ActionLink("Regresar", "Index")
+</p>

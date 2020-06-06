@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Centro_Medico.Models.HISTORIAL_MEDICO>
+
+@{
+    ViewBag.Title = "Historiales Medicos";
+}
+
+<h2>Historiales Medicos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo Historial Medico", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaCreacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PACIENTE.nombresP)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaCreacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PACIENTE.nombresP)
+        </td>
+        <td>
+            @Html.ActionLink("Modificar", "Edit", new { id=item.codigoHM }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.codigoHM }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.codigoHM })
+        </td>
+    </tr>
+}
+
+</table>

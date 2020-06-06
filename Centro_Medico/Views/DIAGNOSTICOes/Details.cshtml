@@ -1,0 +1,74 @@
+﻿@model Centro_Medico.Models.DIAGNOSTICO
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>DIAGNOSTICO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombreDiag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombreDiag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoDiag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoDiag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fotografias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fotografias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.medicamentos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.medicamentos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaEmision)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaEmision)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CITA.estadoCita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CITA.estadoCita)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modificar", "Edit", new { id = Model.codigoDiag }) |
+    @Html.ActionLink("Regresar", "Index")
+</p>

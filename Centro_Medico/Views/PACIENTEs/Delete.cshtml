@@ -1,0 +1,96 @@
+﻿@model Centro_Medico.Models.PACIENTE
+
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Esta seguro que desea eliminar?</h3>
+<div>
+    <h4>PACIENTE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombresP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombresP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apPaterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apPaterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apMaterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apMaterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaNacimientoP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaNacimientoP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sexoP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sexoP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dpiP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dpiP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.direccionP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.direccionP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.telefonoP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.telefonoP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estado)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regresar", "Index")
+        </div>
+    }
+</div>
