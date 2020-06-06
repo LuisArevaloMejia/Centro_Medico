@@ -1,0 +1,382 @@
+USE [master]
+GO
+/****** Object:  Database [DBCentro_medico]    Script Date: 6/06/2020 07:27:41 ******/
+CREATE DATABASE [DBCentro_medico]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'DBCentro_medico', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\DBCentro_medico.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'DBCentro_medico_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\DBCentro_medico_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [DBCentro_medico] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [DBCentro_medico].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [DBCentro_medico] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [DBCentro_medico] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [DBCentro_medico] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [DBCentro_medico] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [DBCentro_medico] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [DBCentro_medico] SET  MULTI_USER 
+GO
+ALTER DATABASE [DBCentro_medico] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [DBCentro_medico] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [DBCentro_medico] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [DBCentro_medico] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [DBCentro_medico] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [DBCentro_medico] SET QUERY_STORE = OFF
+GO
+USE [DBCentro_medico]
+GO
+/****** Object:  Table [dbo].[ESPECIALIDAD]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ESPECIALIDAD](
+	[codigoEsp] [int] IDENTITY(1,1) NOT NULL,
+	[esatadoEsp] [bit] NOT NULL,
+	[NombreEsp] [varchar](50) NOT NULL,
+	[descripccionEsp] [varchar](100) NULL,
+ CONSTRAINT [PK_ESPECIALIDAD] PRIMARY KEY CLUSTERED 
+(
+	[codigoEsp] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MEDICO]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MEDICO](
+	[codigoM] [int] IDENTITY(1,1) NOT NULL,
+	[codigoEmp] [int] NOT NULL,
+	[codigoEsp] [int] NOT NULL,
+	[estadoM] [bit] NOT NULL,
+ CONSTRAINT [PK_MEDICO] PRIMARY KEY CLUSTERED 
+(
+	[codigoM] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CITA]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CITA](
+	[codigoCita] [int] IDENTITY(1,1) NOT NULL,
+	[codigoM] [int] NOT NULL,
+	[codigoP] [int] NOT NULL,
+	[fechaInicio] [datetime] NOT NULL,
+	[fechaFin] [datetime] NOT NULL,
+	[estadoCita] [varchar](50) NOT NULL,
+	[fechaProximaCita] [date] NULL,
+ CONSTRAINT [PK_CITA] PRIMARY KEY CLUSTERED 
+(
+	[codigoCita] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[Consulta_uno]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[Consulta_uno]
+as
+SELECT COUNT (DISTINCT(dbo.CITA.codigoCita)) AS Total_consultas_progreso FROM dbo.CITA LEFT JOIN dbo.MEDICO ON dbo.CITA.codigoM = dbo.CITA.codigoM
+LEFT JOIN dbo.ESPECIALIDAD ON dbo.MEDICO.codigoEsp = dbo.ESPECIALIDAD.codigoEsp
+WHERE dbo.CITA.estadoCita = 'progreso' GROUP BY dbo.CITA.codigoCita
+GO
+/****** Object:  View [dbo].[Consulta_dos]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[Consulta_dos]
+as						
+SELECT M.codigoM AS Codigo_Medico, COUNT(C.codigoCita) AS Total_Pendientes FROM CITA C JOIN MEDICO M ON C.codigoM = M.codigoM 
+WHERE C.estadoCita='pendiente' GROUP BY M.codigoM	
+GO
+/****** Object:  Table [dbo].[EMPLEADO]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EMPLEADO](
+	[codigoEmp] [int] IDENTITY(1,1) NOT NULL,
+	[codigoTipEmp] [int] NOT NULL,
+	[nombresEmp] [varchar](50) NOT NULL,
+	[apPaternoEmp] [varchar](50) NOT NULL,
+	[apMaternoEmp] [varchar](50) NULL,
+	[dpiEmp] [varchar](50) NOT NULL,
+	[Colegiago] [varchar](50) NULL,
+	[sexoEmp] [char](1) NOT NULL,
+	[fechaNacimientoEmp] [date] NOT NULL,
+ CONSTRAINT [PK_EMPLEADO] PRIMARY KEY CLUSTERED 
+(
+	[codigoEmp] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PACIENTE]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PACIENTE](
+	[codigoP] [int] IDENTITY(1,1) NOT NULL,
+	[nombresP] [varchar](50) NOT NULL,
+	[apPaterno] [varchar](50) NOT NULL,
+	[apMaterno] [varchar](50) NOT NULL,
+	[fechaNacimientoP] [date] NOT NULL,
+	[sexoP] [char](1) NOT NULL,
+	[dpiP] [varchar](50) NOT NULL,
+	[direccionP] [varchar](50) NOT NULL,
+	[telefonoP] [varchar](50) NOT NULL,
+	[estado] [bit] NOT NULL,
+ CONSTRAINT [PK_PACIENTE] PRIMARY KEY CLUSTERED 
+(
+	[codigoP] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[Consulta_tres]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[Consulta_tres]
+as
+SELECT TOP 1 E.nombresEmp, P.nombresP, C.codigoCita, DATEDIFF(MINUTE, C.fechaInicio, C.fechaFin) AS Duracion_Minutos FROM CITA C 
+JOIN MEDICO M ON C.codigoM = M.codigoM
+RIGHT JOIN EMPLEADO E ON E.codigoEmp = M.codigoEmp
+JOIN PACIENTE P ON P.codigoP = C.codigoP
+ORDER BY Duracion_Minutos DESC 
+GO
+/****** Object:  View [dbo].[Consulta_cuatro]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[Consulta_cuatro]
+as
+SELECT TOP 1 E.nombresEmp, P.nombresP, C.codigoCita, DATEDIFF(SECOND, C.fechaInicio, C.fechaFin) AS Duracion_Segundos FROM CITA C 
+JOIN MEDICO M ON C.codigoM = M.codigoM
+RIGHT JOIN EMPLEADO E ON E.codigoEmp = M.codigoEmp
+JOIN PACIENTE P ON P.codigoP = C.codigoP
+ORDER BY Duracion_Segundos ASC 
+GO
+/****** Object:  View [dbo].[Consulta_seis]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[Consulta_seis]
+as
+SELECT E.nombresEmp, E.Colegiago, C.codigoCita, C.fechaInicio, P.nombresP FROM CITA C JOIN PACIENTE P ON C.codigoP = P.codigoP AND P.sexoP = 'F'
+								JOIN MEDICO M ON C.codigoM = M.codigoM
+							    JOIN EMPLEADO E ON E.codigoEmp = M.codigoEmp AND E.codigoTipEmp = 2 AND E.sexoEmp = 'M'
+GO
+/****** Object:  Table [dbo].[DIAGNOSTICO]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DIAGNOSTICO](
+	[codigoDiag] [int] IDENTITY(1,1) NOT NULL,
+	[codigoCita] [int] NOT NULL,
+	[nombreDiag] [varchar](50) NOT NULL,
+	[tipoDiag] [varchar](50) NOT NULL,
+	[Observaciones] [varchar](max) NULL,
+	[fotografias] [varchar](max) NULL,
+	[medicamentos] [varchar](max) NULL,
+	[fechaEmision] [datetime] NOT NULL,
+ CONSTRAINT [PK_DIAGNOSTICO] PRIMARY KEY CLUSTERED 
+(
+	[codigoDiag] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[HISTORIAL_MEDICO]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[HISTORIAL_MEDICO](
+	[codigoHM] [int] IDENTITY(1,1) NOT NULL,
+	[codigoP] [int] NOT NULL,
+	[fechaCreacion] [date] NOT NULL,
+	[estado] [bit] NOT NULL,
+ CONSTRAINT [PK_HISTORIAL_MEDICO] PRIMARY KEY CLUSTERED 
+(
+	[codigoHM] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TIPO_EMPLEADO]    Script Date: 6/06/2020 07:27:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TIPO_EMPLEADO](
+	[coidgoTipEmp] [int] IDENTITY(1,1) NOT NULL,
+	[descripccionTipEmp] [varchar](50) NOT NULL,
+	[estadoTipEmp] [bit] NOT NULL,
+ CONSTRAINT [PK_TIPO_EMPLEADO] PRIMARY KEY CLUSTERED 
+(
+	[coidgoTipEmp] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[CITA] ON 
+
+INSERT [dbo].[CITA] ([codigoCita], [codigoM], [codigoP], [fechaInicio], [fechaFin], [estadoCita], [fechaProximaCita]) VALUES (1, 1, 4, CAST(N'2020-05-02T08:00:00.000' AS DateTime), CAST(N'2020-05-02T09:30:00.000' AS DateTime), N'finalizada', CAST(N'2020-10-15' AS Date))
+INSERT [dbo].[CITA] ([codigoCita], [codigoM], [codigoP], [fechaInicio], [fechaFin], [estadoCita], [fechaProximaCita]) VALUES (2, 1, 6, CAST(N'2020-05-02T11:30:00.000' AS DateTime), CAST(N'2020-05-02T12:00:25.000' AS DateTime), N'finalizada', CAST(N'1900-01-01' AS Date))
+INSERT [dbo].[CITA] ([codigoCita], [codigoM], [codigoP], [fechaInicio], [fechaFin], [estadoCita], [fechaProximaCita]) VALUES (4, 1, 4, CAST(N'2020-05-02T14:00:00.000' AS DateTime), CAST(N'2020-05-02T14:30:50.000' AS DateTime), N'finalizada', CAST(N'2020-12-01' AS Date))
+INSERT [dbo].[CITA] ([codigoCita], [codigoM], [codigoP], [fechaInicio], [fechaFin], [estadoCita], [fechaProximaCita]) VALUES (5, 1, 6, CAST(N'2020-05-03T08:00:00.000' AS DateTime), CAST(N'2020-05-03T09:00:00.000' AS DateTime), N'pendiente', CAST(N'2020-07-04' AS Date))
+INSERT [dbo].[CITA] ([codigoCita], [codigoM], [codigoP], [fechaInicio], [fechaFin], [estadoCita], [fechaProximaCita]) VALUES (6, 2, 7, CAST(N'2020-05-06T14:00:00.000' AS DateTime), CAST(N'2020-05-06T16:00:00.000' AS DateTime), N'progreso', CAST(N'2020-08-03' AS Date))
+INSERT [dbo].[CITA] ([codigoCita], [codigoM], [codigoP], [fechaInicio], [fechaFin], [estadoCita], [fechaProximaCita]) VALUES (7, 3, 5, CAST(N'2020-05-06T09:00:00.000' AS DateTime), CAST(N'2020-05-06T10:25:00.000' AS DateTime), N'pendiente', CAST(N'2020-11-03' AS Date))
+SET IDENTITY_INSERT [dbo].[CITA] OFF
+GO
+SET IDENTITY_INSERT [dbo].[DIAGNOSTICO] ON 
+
+INSERT [dbo].[DIAGNOSTICO] ([codigoDiag], [codigoCita], [nombreDiag], [tipoDiag], [Observaciones], [fotografias], [medicamentos], [fechaEmision]) VALUES (1, 1, N'Revicion Sistema endocrino', N'Dianostico Rutunario', N'Debe presentarse a revicion en fecha establecida', NULL, N'Antinflamatorio mexmar', CAST(N'2020-05-02T10:00:00.000' AS DateTime))
+SET IDENTITY_INSERT [dbo].[DIAGNOSTICO] OFF
+GO
+SET IDENTITY_INSERT [dbo].[EMPLEADO] ON 
+
+INSERT [dbo].[EMPLEADO] ([codigoEmp], [codigoTipEmp], [nombresEmp], [apPaternoEmp], [apMaternoEmp], [dpiEmp], [Colegiago], [sexoEmp], [fechaNacimientoEmp]) VALUES (1, 2, N'Luis Fernando', N'Delgado', N'Juares', N'988471', N'894-k', N'M', CAST(N'1982-07-04' AS Date))
+INSERT [dbo].[EMPLEADO] ([codigoEmp], [codigoTipEmp], [nombresEmp], [apPaternoEmp], [apMaternoEmp], [dpiEmp], [Colegiago], [sexoEmp], [fechaNacimientoEmp]) VALUES (2, 4, N'Luis Alfredo', N'Arevalo', N'Mejia', N'21218380', N'982-3d', N'M', CAST(N'1992-05-03' AS Date))
+INSERT [dbo].[EMPLEADO] ([codigoEmp], [codigoTipEmp], [nombresEmp], [apPaternoEmp], [apMaternoEmp], [dpiEmp], [Colegiago], [sexoEmp], [fechaNacimientoEmp]) VALUES (3, 1, N'Monica Sofia', N'Morales', N'Marin', N'4939230', N'9324-0093', N'F', CAST(N'1994-11-04' AS Date))
+INSERT [dbo].[EMPLEADO] ([codigoEmp], [codigoTipEmp], [nombresEmp], [apPaternoEmp], [apMaternoEmp], [dpiEmp], [Colegiago], [sexoEmp], [fechaNacimientoEmp]) VALUES (4, 2, N'Susana Esperanza', N'Perez', N'Maldonado', N'85039582', N'98503m-8', N'F', CAST(N'1987-03-02' AS Date))
+INSERT [dbo].[EMPLEADO] ([codigoEmp], [codigoTipEmp], [nombresEmp], [apPaternoEmp], [apMaternoEmp], [dpiEmp], [Colegiago], [sexoEmp], [fechaNacimientoEmp]) VALUES (5, 2, N'Branzini Jose', N'Cuezzi', N'Mejia', N'984243252', N'095-3mm', N'M', CAST(N'1989-10-06' AS Date))
+SET IDENTITY_INSERT [dbo].[EMPLEADO] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ESPECIALIDAD] ON 
+
+INSERT [dbo].[ESPECIALIDAD] ([codigoEsp], [esatadoEsp], [NombreEsp], [descripccionEsp]) VALUES (1, 1, N'Cirugia', N'Medico cirujano')
+INSERT [dbo].[ESPECIALIDAD] ([codigoEsp], [esatadoEsp], [NombreEsp], [descripccionEsp]) VALUES (2, 1, N'Oftalmologo', N'Medicina dedicada a los ojos')
+SET IDENTITY_INSERT [dbo].[ESPECIALIDAD] OFF
+GO
+SET IDENTITY_INSERT [dbo].[HISTORIAL_MEDICO] ON 
+
+INSERT [dbo].[HISTORIAL_MEDICO] ([codigoHM], [codigoP], [fechaCreacion], [estado]) VALUES (1, 4, CAST(N'2020-05-02' AS Date), 1)
+SET IDENTITY_INSERT [dbo].[HISTORIAL_MEDICO] OFF
+GO
+SET IDENTITY_INSERT [dbo].[MEDICO] ON 
+
+INSERT [dbo].[MEDICO] ([codigoM], [codigoEmp], [codigoEsp], [estadoM]) VALUES (1, 1, 1, 1)
+INSERT [dbo].[MEDICO] ([codigoM], [codigoEmp], [codigoEsp], [estadoM]) VALUES (2, 4, 2, 1)
+INSERT [dbo].[MEDICO] ([codigoM], [codigoEmp], [codigoEsp], [estadoM]) VALUES (3, 5, 1, 1)
+SET IDENTITY_INSERT [dbo].[MEDICO] OFF
+GO
+SET IDENTITY_INSERT [dbo].[PACIENTE] ON 
+
+INSERT [dbo].[PACIENTE] ([codigoP], [nombresP], [apPaterno], [apMaterno], [fechaNacimientoP], [sexoP], [dpiP], [direccionP], [telefonoP], [estado]) VALUES (4, N'Juan Jose', N'Perez', N'Gomez', CAST(N'1991-10-15' AS Date), N'M', N'2183734', N'4 av. 4-23 z 1 Guatemala', N'43876539', 1)
+INSERT [dbo].[PACIENTE] ([codigoP], [nombresP], [apPaterno], [apMaterno], [fechaNacimientoP], [sexoP], [dpiP], [direccionP], [telefonoP], [estado]) VALUES (5, N'Carlos Jose', N'Martinez', N'lopez', CAST(N'1997-11-05' AS Date), N'M', N'98447', N'calle poniente 7 87 Guatemala', N'39847540', 1)
+INSERT [dbo].[PACIENTE] ([codigoP], [nombresP], [apPaterno], [apMaterno], [fechaNacimientoP], [sexoP], [dpiP], [direccionP], [telefonoP], [estado]) VALUES (6, N'Flory', N'Sanchez', N'Gonzalez', CAST(N'1987-09-10' AS Date), N'F', N'99020', N'21 calle zona 8 San Marcos', N'94893029', 0)
+INSERT [dbo].[PACIENTE] ([codigoP], [nombresP], [apPaterno], [apMaterno], [fechaNacimientoP], [sexoP], [dpiP], [direccionP], [telefonoP], [estado]) VALUES (7, N'Liliana Maria', N'Juarez', N'Sandobal', CAST(N'1984-04-02' AS Date), N'F', N'98080353323', N'Casa 14 res. villa lobos z 21 Guatemala', N'832983743', 1)
+SET IDENTITY_INSERT [dbo].[PACIENTE] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TIPO_EMPLEADO] ON 
+
+INSERT [dbo].[TIPO_EMPLEADO] ([coidgoTipEmp], [descripccionTipEmp], [estadoTipEmp]) VALUES (1, N'Recursos Humanos', 1)
+INSERT [dbo].[TIPO_EMPLEADO] ([coidgoTipEmp], [descripccionTipEmp], [estadoTipEmp]) VALUES (2, N'Medico', 1)
+INSERT [dbo].[TIPO_EMPLEADO] ([coidgoTipEmp], [descripccionTipEmp], [estadoTipEmp]) VALUES (3, N'Contabilidad', 1)
+INSERT [dbo].[TIPO_EMPLEADO] ([coidgoTipEmp], [descripccionTipEmp], [estadoTipEmp]) VALUES (4, N'Desarrollo', 1)
+INSERT [dbo].[TIPO_EMPLEADO] ([coidgoTipEmp], [descripccionTipEmp], [estadoTipEmp]) VALUES (5, N'Soporte tecnico', 1)
+INSERT [dbo].[TIPO_EMPLEADO] ([coidgoTipEmp], [descripccionTipEmp], [estadoTipEmp]) VALUES (6, N'Enfermeria', 1)
+INSERT [dbo].[TIPO_EMPLEADO] ([coidgoTipEmp], [descripccionTipEmp], [estadoTipEmp]) VALUES (7, N'Limpieza', 1)
+SET IDENTITY_INSERT [dbo].[TIPO_EMPLEADO] OFF
+GO
+ALTER TABLE [dbo].[CITA]  WITH CHECK ADD  CONSTRAINT [FK_CITA_MEDICO] FOREIGN KEY([codigoM])
+REFERENCES [dbo].[MEDICO] ([codigoM])
+GO
+ALTER TABLE [dbo].[CITA] CHECK CONSTRAINT [FK_CITA_MEDICO]
+GO
+ALTER TABLE [dbo].[CITA]  WITH CHECK ADD  CONSTRAINT [FK_CITA_PACIENTE] FOREIGN KEY([codigoP])
+REFERENCES [dbo].[PACIENTE] ([codigoP])
+GO
+ALTER TABLE [dbo].[CITA] CHECK CONSTRAINT [FK_CITA_PACIENTE]
+GO
+ALTER TABLE [dbo].[DIAGNOSTICO]  WITH CHECK ADD  CONSTRAINT [FK_DIAGNOSTICO_CITA] FOREIGN KEY([codigoCita])
+REFERENCES [dbo].[CITA] ([codigoCita])
+GO
+ALTER TABLE [dbo].[DIAGNOSTICO] CHECK CONSTRAINT [FK_DIAGNOSTICO_CITA]
+GO
+ALTER TABLE [dbo].[EMPLEADO]  WITH CHECK ADD  CONSTRAINT [FK_EMPLEADO_TIPO_EMPLEADO] FOREIGN KEY([codigoTipEmp])
+REFERENCES [dbo].[TIPO_EMPLEADO] ([coidgoTipEmp])
+GO
+ALTER TABLE [dbo].[EMPLEADO] CHECK CONSTRAINT [FK_EMPLEADO_TIPO_EMPLEADO]
+GO
+ALTER TABLE [dbo].[HISTORIAL_MEDICO]  WITH CHECK ADD  CONSTRAINT [FK_HISTORIAL_MEDICO_PACIENTE] FOREIGN KEY([codigoP])
+REFERENCES [dbo].[PACIENTE] ([codigoP])
+GO
+ALTER TABLE [dbo].[HISTORIAL_MEDICO] CHECK CONSTRAINT [FK_HISTORIAL_MEDICO_PACIENTE]
+GO
+ALTER TABLE [dbo].[MEDICO]  WITH CHECK ADD  CONSTRAINT [FK_MEDICO_EMPLEADO] FOREIGN KEY([codigoEmp])
+REFERENCES [dbo].[EMPLEADO] ([codigoEmp])
+GO
+ALTER TABLE [dbo].[MEDICO] CHECK CONSTRAINT [FK_MEDICO_EMPLEADO]
+GO
+ALTER TABLE [dbo].[MEDICO]  WITH CHECK ADD  CONSTRAINT [FK_MEDICO_ESPECIALIDAD] FOREIGN KEY([codigoEsp])
+REFERENCES [dbo].[ESPECIALIDAD] ([codigoEsp])
+GO
+ALTER TABLE [dbo].[MEDICO] CHECK CONSTRAINT [FK_MEDICO_ESPECIALIDAD]
+GO
+USE [master]
+GO
+ALTER DATABASE [DBCentro_medico] SET  READ_WRITE 
+GO
